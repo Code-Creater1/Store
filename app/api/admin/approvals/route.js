@@ -45,7 +45,7 @@ export async function POST(req) {
 
     const updated = await User.findByIdAndUpdate(
       userId,
-      { role: "admin", approved: true },
+      { role: "admin", approved: true, requestedRole: "admin" },
       { new: true },
     ).lean();
 

@@ -91,7 +91,8 @@ export default function Navbar() {
     <>
       {" "}
       <header className="w-full">
-        {/* Top Header */}{" "}
+        
+        {" "}
         <div className="bg-slate-900 text-white">
           {" "}
           <div className="mx-auto flex h-16 items-center gap-4 px-4 md:px-6">
@@ -106,7 +107,7 @@ export default function Navbar() {
 
             {/* Logo */}
             <Link href="/" className="text-2xl font-bold tracking-tight">
-              Store
+              NovaCart
             </Link>
 
             {/* Location */}
@@ -144,12 +145,7 @@ export default function Navbar() {
               <ChevronDown size={14} />
             </div>
 
-            {/* User */}
             {user ? (
-              // <div className="hidden md:block rounded-sm border border-transparent px-3 py-2 hover:border-white">
-              //   <p className="text-[11px]">Hello,</p>
-              //   <p className="text-sm font-bold">{user.name}</p>
-              // </div>
               <Link
                 href="/admin"
                 className="md:block rounded-sm border border-transparent px-3 py-2 hover:border-white"
@@ -167,7 +163,6 @@ export default function Navbar() {
               </Link>
             )}
 
-            {/* Orders */}
 
             <Link
               href="/login"
@@ -177,7 +172,6 @@ export default function Navbar() {
               <p className="text-sm font-bold">Account & Lists</p>
             </Link>
 
-            {/* Admin */}
             {isAdmin && (
               <Link
                 href="/admin"
@@ -188,7 +182,6 @@ export default function Navbar() {
               </Link>
             )}
 
-            {/* Logout */}
             {user && (
               <button
                 onClick={logout}
@@ -198,7 +191,6 @@ export default function Navbar() {
               </button>
             )}
 
-            {/* Login/Register */}
             {!user && (
               <div className="hidden lg:flex items-center gap-2">
                 <Link
@@ -217,7 +209,6 @@ export default function Navbar() {
               </div>
             )}
 
-            {/* Cart */}
             <Link
               href="/cart"
               className="relative flex items-center gap-2 rounded-sm border border-transparent px-3 py-2 hover:border-white"
@@ -231,13 +222,13 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
-        {/* Admin Pending Notice */}
+        
         {pendingAdmin && (
           <div className="bg-yellow-100 py-2 text-center text-sm text-yellow-800">
             Your admin request is pending approval.
           </div>
         )}
-        {/* Bottom Navigation */}
+        
         <div className="bg-slate-800 text-white">
           <div className="mx-auto flex h-10 items-center gap-5 overflow-x-auto px-4 text-sm md:px-6">
             <Link href="/" className="hover:text-amber-300">
@@ -269,23 +260,19 @@ export default function Navbar() {
             </Link>
 
             <Link href="#" className="hover:text-amber-300">
-              Home
-            </Link>
-
-            <Link href="#" className="hover:text-amber-300">
               Sports
             </Link>
           </div>
         </div>
       </header>
-      {/* Overlay */}
+
       <div
         className={`fixed inset-0 z-40 bg-black/60 transition-opacity duration-300 ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
         onClick={() => setOpen(false)}
       />
-      {/* Sidebar */}
+
       <aside
         className={`fixed left-0 top-0 z-50 h-full w-[90vw] max-w-[420px] bg-white shadow-xl transition-transform duration-300 ${
           open ? "translate-x-0" : "-translate-x-full"
@@ -297,7 +284,7 @@ export default function Navbar() {
               {user ? `Hello, ${user.name}` : "Hello, Sign in"}
             </p>
 
-            <p className="text-xl font-bold">Store</p>
+            <p className="text-xl font-bold">NovaCart</p>
           </div>
 
           <button

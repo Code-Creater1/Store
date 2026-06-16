@@ -8,9 +8,9 @@ export async function POST(req) {
   await connect();
   const { email, password } = body;
   const user = await User.findOne({ email });
-  if (!user) return new Response("Invalid credentials", { status: 401 });
+  if (!user) return new Response("Invalid email", { status: 401 });
   const ok = await bcrypt.compare(password, user.password);
-  if (!ok) return new Response("Invalid credentials", { status: 401 });
+  if (!ok) return new Response("Invalid password", { status: 401 });
   const token = signToken({ id: user._id, email: user.email, role: user.role });
   return new Response(
     JSON.stringify({
@@ -28,3 +28,4 @@ export async function POST(req) {
     { status: 200 },
   );
 }
+
