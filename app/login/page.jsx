@@ -23,6 +23,10 @@ export default function LoginPage() {
       const data = await res.json();
       localStorage.setItem("token", data.token);
       localStorage.setItem("userName", data.user.name);
+      localStorage.setItem("userRole", data.user.role);
+      localStorage.setItem("requestedRole", data.user.requestedRole);
+      localStorage.setItem("approved", data.user.approved);
+      localStorage.setItem("isMainAdmin", data.user.isMainAdmin);
       router.push("/");
     } else {
       setError("Login failed. Check your credentials.");

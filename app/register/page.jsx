@@ -6,6 +6,7 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -17,13 +18,17 @@ export default function RegisterPage() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, email, password, role }),
     });
     setLoading(false);
     if (res.ok) {
       const data = await res.json();
       localStorage.setItem("token", data.token);
       localStorage.setItem("userName", data.user.name);
+      localStorage.setItem("userRole", data.user.role);
+      localStorage.setItem("requestedRole", data.user.requestedRole);
+      localStorage.setItem("approved", data.user.approved);
+      localStorage.setItem("isMainAdmin", data.user.isMainAdmin);
       router.push("/");
     } else {
       const message = await res.text();
@@ -58,6 +63,17 @@ export default function RegisterPage() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      <label className="mb-2 block text-sm font-medium text-gray-700">
+        Account type
+      </label>
+      <select
+        value={role}
+        onChange={(e) => setRole(e.target.value)}
+        className="w-full mb-4 rounded border border-gray-300 p-3 focus:border-blue-500 focus:outline-none"
+      >
+        <option value="user">User</option>
+        <option value="admin">Admin (request approval)</option>
+      </select>
       <button
         type="submit"
         className="w-full rounded bg-green-600 px-4 py-3 text-white hover:bg-green-700 disabled:opacity-60"

@@ -15,7 +15,15 @@ export async function POST(req) {
   return new Response(
     JSON.stringify({
       token,
-      user: { id: user._id, name: user.name, email: user.email },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        requestedRole: user.requestedRole,
+        approved: user.approved,
+        isMainAdmin: user.isMainAdmin,
+      },
     }),
     { status: 200 },
   );
