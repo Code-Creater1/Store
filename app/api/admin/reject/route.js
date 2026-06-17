@@ -8,27 +8,6 @@ async function getCurrentUser(token) {
   return User.findById(decoded.id).lean();
 }
 
-export async function GET(req) {
-  const auth = req.headers.get("authorization");
-  if (!auth) return new Response("Unauthorized", { status: 401 });
-
-  try {
-    const token = auth.replace("Bearer ", "");
-    const currentUser = await getCurrentUser(token);
-    if (!currentUser || !currentUser.isMainAdmin)
-      return new Response("Forbidden", { status: 403 });
-
-    const pendingUsers = await User.find({
-      requestedRole: "admin",
-      approved: "pending",
-    }).lean();
-
-    return new Response(JSON.stringify(pendingUsers), { status: 200 });
-  } catch (error) {
-    return new Response("Unauthorized", { status: 401 });
-  }
-}
-
 export async function POST(req) {
   const auth = req.headers.get("authorization");
   if (!auth) return new Response("Unauthorized", { status: 401 });
@@ -42,17 +21,18 @@ export async function POST(req) {
     const body = await req.json();
     const { userId } = body;
     if (!userId) return new Response("Missing userId", { status: 400 });
+    console.log("Rejecting user with ID:", userId);
 
     const updated = await User.findByIdAndUpdate(
       userId,
-      { role: "admin", approved: "approved", requestedRole: "admin" },
-      { new: true },
+      { role: "admin", approved: "rejected", requestedRole: "admin" },
+      { new: false },
     ).lean();
 
     if (!updated) return new Response("User not found", { status: 404 });
 
     return new Response(JSON.stringify(updated), { status: 200 });
   } catch (error) {
-    return new Response("Unauthorized", { status: 401 });
+    return new Response("something went wrong", { status: 401 });
   }
 }

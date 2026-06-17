@@ -41,24 +41,40 @@ export default function AdminPage() {
   useEffect(() => {
     async function init() {
       const token = localStorage.getItem("token");
-      if (token) {
-        const res = await fetch("/api/auth/me", {
-          headers: { authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          const mainAdmin = data.isMainAdmin === true;
-          const approvedUser = data.approved === true;
-          setIsMainAdmin(mainAdmin);
-          setApproved(approvedUser);
-          setRole(data.role);
-          setLoading(false);
-          if (mainAdmin && approvedUser) {
-            await loadPendingUsers();
-          }
-        }
+
+      if (!token) return;
+
+      const res = await fetch("/api/auth/me", {
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) return;
+
+      const data = await res.json();
+
+      const mainAdmin = data.isMainAdmin === true;
+      const approvedUser = data.approved === true;
+
+      setIsMainAdmin(mainAdmin);
+      setApproved(approvedUser);
+      setRole(data.role);
+
+      setLoading(false);
+
+      // 🔥 IMPORTANT REDIRECTION LOGIC
+      if (mainAdmin) {
+        router.push("/admin/main-admin"); // 👈 send main admin away
+        return;
       }
-      loadProducts();
+
+      if (data.role !== "admin") {
+        router.push("/login"); // or user page
+        return;
+      }
+
+      if (approvedUser) {
+        await loadPendingUsers();
+      }
     }
 
     init();
@@ -128,7 +144,7 @@ export default function AdminPage() {
             Only approved admin accounts can manage products. Register as a user
             to use store features or request admin access from the main admin.
           </p>
-        ) : !approved ? (
+        ) : approved === "pending" ? (
           <p className="mt-3 rounded-xl bg-yellow-50 p-4 text-sm text-yellow-900">
             Your admin request is pending approval from the main admin.
           </p>

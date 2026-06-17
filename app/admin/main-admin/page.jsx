@@ -9,7 +9,7 @@ export default function MainAdminDashboard() {
   const [me, setMe] = useState(null);
   const router = useRouter();
 
-  // 🔹 Load current user + check if main admin
+
   async function loadMe() {
     const token = localStorage.getItem("token");
 
@@ -30,7 +30,7 @@ export default function MainAdminDashboard() {
     }
 
     const data = await res.json();
-
+    console.log("Current user:", data);
     if (!data.isMainAdmin) {
       router.push("/admin");
       return;
@@ -39,7 +39,6 @@ export default function MainAdminDashboard() {
     setMe(data);
   }
 
-  // 🔹 Load pending admin requests
   async function loadRequests() {
     const token = localStorage.getItem("token");
 
@@ -66,11 +65,27 @@ export default function MainAdminDashboard() {
     init();
   }, []);
 
-  // 🔹 Approve user
+
   async function approveUser(userId) {
     const token = localStorage.getItem("token");
 
     const res = await fetch("/api/admin/approvals", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ userId }),
+    });
+
+    if (res.ok) {
+      setUsers((prev) => prev.filter((u) => u._id !== userId));
+    }
+  }
+  async function rejectUser(userId) {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch("/api/admin/reject", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,13 +105,13 @@ export default function MainAdminDashboard() {
 
   return (
     <div className="p-6 space-y-6">
-      {/* HEADER */}
+      
       <div className="bg-white shadow p-6 rounded-2xl">
         <h1 className="text-3xl font-bold">Main Admin Dashboard</h1>
         <p className="text-gray-600">Welcome {me?.name || "Admin"} 👑</p>
       </div>
 
-      {/* REQUESTS */}
+      
       <div className="bg-white shadow p-6 rounded-2xl">
         <h2 className="text-xl font-semibold mb-4">Pending Admin Requests</h2>
 
@@ -109,19 +124,26 @@ export default function MainAdminDashboard() {
                 key={user._id}
                 className="flex items-center justify-between border p-4 rounded-xl"
               >
-                {/* USER INFO */}
+                
                 <div>
                   <p className="font-semibold">{user.name}</p>
                   <p className="text-sm text-gray-500">{user.email}</p>
                 </div>
 
-                {/* BUTTON */}
+                <div className="space-x-2">
+                <button
+                  onClick={() => rejectUser(user._id)}
+                  className="bg-red-600 text-white px-4 py-2 rounded-xl hover:bg-red-700"
+                >
+                  Reject Admin
+                </button>
                 <button
                   onClick={() => approveUser(user._id)}
                   className="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700"
                 >
                   Approve Admin
                 </button>
+                </div>
               </div>
             ))}
           </div>

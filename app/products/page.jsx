@@ -10,7 +10,7 @@ export default function ProductsPage() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        // Fetch from your backend API
+        
         const res = await fetch('/api/products'); 
         const data = await res.json();
         setAllProducts(data);

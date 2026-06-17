@@ -27,7 +27,13 @@ export default function LoginPage() {
       localStorage.setItem("requestedRole", data.user.requestedRole);
       localStorage.setItem("approved", data.user.approved);
       localStorage.setItem("isMainAdmin", data.user.isMainAdmin);
-      router.push("/");
+      if (data.user.isMainAdmin) {
+        router.push("/admin/main-admin");
+      } else if (data.user.role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/products");
+      }
     } else {
       setError("Login failed. Check your credentials.");
     }

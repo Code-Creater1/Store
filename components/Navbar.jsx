@@ -96,7 +96,7 @@ export default function Navbar() {
         <div className="bg-slate-900 text-white">
           {" "}
           <div className="mx-auto flex h-16 items-center gap-4 px-4 md:px-6">
-            {/* Menu */}
+            
             <button
               onClick={() => setOpen(true)}
               className="flex items-center gap-2 rounded-sm bg-slate-800 px-3 py-2 text-sm font-semibold hover:bg-slate-700"
@@ -105,12 +105,12 @@ export default function Navbar() {
               <Menu size={18} /> <span>All</span>{" "}
             </button>
 
-            {/* Logo */}
+            
             <Link href="/" className="text-2xl font-bold tracking-tight">
               NovaCart
             </Link>
 
-            {/* Location */}
+            
             <div className="hidden md:flex items-center gap-1 rounded-sm border border-transparent bg-slate-800 px-3 py-2 hover:border-white">
               <MapPin size={18} />
               <div className="leading-none">
@@ -119,7 +119,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Search */}
+            
             <div className="flex flex-1 items-center overflow-hidden rounded-sm bg-white text-black shadow-sm">
               <select className="bg-white px-3 text-sm outline-none">
                 <option>All</option>
@@ -139,15 +139,15 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Language */}
+            
             <div className="hidden lg:flex items-center gap-1 rounded-sm border border-transparent bg-slate-800 px-3 py-2 hover:border-white">
               <span>EN</span>
               <ChevronDown size={14} />
             </div>
 
-            {user ? (
+            {user?.role === 'admin' ? (
               <Link
-                href="/admin"
+                href={`${user.isMainAdmin ? "/admin/main-admin" : user.role === "admin" ? "/admin" : "/products"}`}
                 className="md:block rounded-sm border border-transparent px-3 py-2 hover:border-white"
               >
                 <p className="text-[11px]">Admin</p>
@@ -171,16 +171,16 @@ export default function Navbar() {
               <p className="text-[11px]">Hello, Sign in</p>
               <p className="text-sm font-bold">Account & Lists</p>
             </Link>
-
-            {isAdmin && (
-              <Link
-                href="/admin"
+                
+            
+              {/* <Link
+                href={`${user?.isMainAdmin ? "/admin/main-admin" : user?.role  === "admin" ? "/admin"`}
                 className="md:block rounded-sm border border-transparent px-3 py-2 hover:border-white"
               >
                 <p className="text-[11px]">Admin</p>
                 <p className="text-sm font-bold">Dashboard</p>
               </Link>
-            )}
+             */}
 
             {user && (
               <button
