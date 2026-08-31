@@ -44,7 +44,7 @@ export default function Footer() {
             <p className="mt-2 text-sm text-gray-400">support@novacart.com</p>
           </div>
         </div>
-
+        
         <div className="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between text-sm text-gray-500">
           <p>© {new Date().getFullYear()} NovaCart. All rights reserved.</p>
           <div className="flex gap-4 mt-3 md:mt-0">
