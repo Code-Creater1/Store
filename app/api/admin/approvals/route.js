@@ -7,7 +7,6 @@ async function getCurrentUser(token) {
   await connect();
   return User.findById(decoded.id).lean();
 }
-
 export async function GET(req) {
   const auth = req.headers.get("authorization");
   if (!auth) return new Response("Unauthorized", { status: 401 });
