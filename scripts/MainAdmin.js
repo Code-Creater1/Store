@@ -1,38 +1,3 @@
-// import mongoose from "mongoose";
-// import bcrypt from "bcryptjs";
-// import User from "../models/User.js";
-
-// async function run() {
-//   await mongoose.connect("YOUR_MONGO_URI_HERE");
-
-//   const existing = await User.findOne({ email: "dave@admin.com" });
-
-//   if (existing) {
-//     console.log("Main admin already exists");
-//     process.exit();
-//   }
-
-//   const hashedPassword = await bcrypt.hash("123456", 10);
-
-//   await User.create({
-//     name: "Dave",
-//     email: "dave@admin.com",
-//     password: hashedPassword,
-//     role: "admin",
-//     isMainAdmin: true,
-//     approved: true,
-//   });
-
-//   console.log("Main admin created successfully");
-//   process.exit();
-// }
-
-// run();
-
-
-
-
-
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
@@ -68,5 +33,4 @@ async function run() {
   console.log("Main admin created successfully");
   process.exit();
 }
-
 run();
